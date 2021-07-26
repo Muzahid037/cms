@@ -11,7 +11,7 @@ if (isset($_POST['create_post'])) {
 
     $post_content = $_POST['post_content'];
     $post_tags = $_POST['post_tags'];
-    $post_comment_count = $_POST['post_comment_count'];
+    //$post_comment_count = $_POST['post_comment_count'];
     $post_status = $_POST['post_status'];
 
     move_uploaded_file($post_image_temp, "../images/$post_image");
@@ -20,11 +20,13 @@ if (isset($_POST['create_post'])) {
 
     $query = "INSERT INTO posts(post_category_id,post_title,post_author,post_date,post_image,
     post_content,post_tags,post_comment_count,post_status) ";
-    $query .= "VALUES ('$post_category_id','$post_title','$post_author',now(),'$post_image',
-    '$post_content','$post_tags','$post_comment_count','$post_status')";
+    $query .= "VALUES ($post_category_id,'{$post_title}','{$post_author}',now(),'{$post_image}',
+    '{$post_content}','{$post_tags}',0,'{$post_status}')";
     $post_insert_query = mysqli_query($connection, $query);
 
     confirmQuery($post_insert_query);
+
+    header("Location: posts.php");
 }
 ?>
 
@@ -42,6 +44,13 @@ if (isset($_POST['create_post'])) {
             <input class="form-control" type="text" name="post_category_id">
         </div>
         -->
+
+        <div class="form-group">
+            <label for="post_title">Post Title</label><br>
+            <input class="form-control" type="text" name="post_title">
+        </div>
+
+
         <div class="form-group">
 
             <label for="post_category_id">Choose a category:</label>
@@ -62,10 +71,6 @@ if (isset($_POST['create_post'])) {
             </select>
         </div>
 
-        <div class="form-group">
-            <label for="post_title">Post Title</label><br>
-            <input class="form-control" type="text" name="post_title">
-        </div>
 
         <div class="form-group">
             <label for="post_author">Post Author</label><br>
@@ -84,7 +89,7 @@ if (isset($_POST['create_post'])) {
 
         <div class="form-group">
             <label for="post_content">Post Content</label><br>
-            <textarea name="post_content" id="" cols="100" rows="10"></textarea>
+            <textarea name="post_content" id="body" cols="100" rows="10"></textarea>
         </div>
 
         <div class="form-group">
@@ -92,15 +97,23 @@ if (isset($_POST['create_post'])) {
             <input class="form-control" type="text" name="post_tags">
         </div>
 
+        <!--
         <div class="form-group">
             <label for="post_comment_count">Post Comment Count</label><br>
             <input class="form-control" type="text" name="post_comment_count">
         </div>
+       
+ -->
 
         <div class="form-group">
-            <label for="post_status">Post Status</label><br>
-            <input class="form-control" type="text" name="post_status">
+
+            <label for="post_status">Choose Post Status:</label>
+            <select name="post_status" id="">
+                  <option value='draft'>Draft</option>
+                  <option value='published'>Published</option>
+            </select>
         </div>
+
 
         <div class="form-group">
             <input class="btn btn-primary" type="submit" name="create_post" value="Create Post">

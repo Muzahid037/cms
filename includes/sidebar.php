@@ -1,6 +1,38 @@
           <div class="col-md-4">
 
 
+
+              <?php
+                if (!isset($_SESSION['user_id'])) {
+                    echo "
+
+              <!-- Login -->
+              <div class='well'>
+                  <h4>Login</h4>
+
+                  <form action='includes/login.php' method='post'>
+
+                      <div class='form-group'>
+                          <input name='username' type='group' class='form-control' placeholder='Username'>
+                      </div>
+                      <div class='input-group'>
+                          <input name='password' type='password' class='form-control' placeholder='Password'>
+                          <span class='input-group-btn'>
+                              <button name='login' class='btn btn-primary' type='submit'> Submit </button>
+                          </span>
+                      </div>
+
+                  </form>
+                  <!-- /.input-group -->
+              </div>
+              <!-- Login --> 
+              
+              ";
+                }
+
+                ?>
+
+
               <!-- Blog Search Well -->
               <div class="well">
                   <h4>Blog Search</h4>
@@ -45,7 +77,7 @@
                                     $cat_id = $row['cat_id'];
                                     $cat_title = $row['cat_title'];
 
-                                     echo "<li> <a href='category.php?c_id=$cat_id'> {$cat_title} </a> </li>";
+                                    echo "<li> <a href='category.php?c_id=$cat_id'> {$cat_title} </a> </li>";
                                 }
                                 ?>
                           </ul>

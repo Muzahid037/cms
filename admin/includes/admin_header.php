@@ -1,6 +1,31 @@
 <?php ob_start(); ?>
+<?php session_start() ?>
 <?php include "../includes/db.php"; ?>
 <?php include "functions.php"; ?>
+
+<?php
+
+if (isset($_SESSION['user_id'])) {
+
+    $user_id = $_SESSION['user_id'];
+    $query = "SELECT * FROM users WHERE user_id= {$user_id}";
+    $result = mysqli_query($connection, $query);
+
+    confirmQuery($result);
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $user_role = $row['user_role'];
+    }
+
+    if ($user_role !== 'admin') {
+        header("Location:../index.php");
+    }
+} else {
+    header("Location:../index.php");
+}
+
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -31,6 +56,16 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <!--from google chart -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+
+
+    <!--CKE TextEditor -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/28.0.0/classic/ckeditor.js"></script>
 </head>
 
 <body>
